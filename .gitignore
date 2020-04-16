@@ -1,6 +1,4 @@
-*.py[cod]
-
-build
-devel
-
-profile.tmp
+-build
+-devel
+-
+-profile.tmp
