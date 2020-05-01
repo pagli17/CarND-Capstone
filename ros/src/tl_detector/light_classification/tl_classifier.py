@@ -3,6 +3,9 @@ import rospy
 import numpy as np
 import tensorflow as tf
 
+graph_file_location = rospy.get_param("/tl_classifier_pb_file")
+
+
 def filter_boxes(min_score, boxes, scores, classes):
     """Return boxes with a confidence >= `min_score`"""
     n = len(classes)
@@ -26,10 +29,11 @@ def load_graph(graph_file):
             tf.import_graph_def(od_graph_def, name='')
     return graph
 
+
 class TLClassifier(object):
     def __init__(self):
         #TODO load classifiier
-        graph_file_location = rospy.get_param("/tl_classifier_pb_file")
+        #graph_file_location = rospy.get_param("/tl_classifier_pb_file")
         
         self.detection_graph = load_graph(graph_file_location)
         # The input placeholder for the image.
@@ -71,11 +75,15 @@ class TLClassifier(object):
             if classes.size != 0:
 
                 if classes[0] == 1:
+                    rospy.logwarn("TL_Classifier State Green: {}".format(TrafficLight.GREEN))
                     return TrafficLight.GREEN
                 elif classes[0] == 2:
+                    rospy.logwarn("TL_Classifier State Red: {}".format(TrafficLight.RED))
                     return TrafficLight.RED
                 elif classes[0] == 3:
+                    rospy.logwarn("TL_Classifier State Yellow: {}".format(TrafficLight.YELLOW))
                     return TrafficLight.YELLOW
 
         #TODO implement light color prediction
+        rospy.logwarn("TL_Classifier State Unknown: {}".format(TrafficLight.UNKNOWN))
         return TrafficLight.UNKNOWN
