@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
+from std_msgs.msg import Int32
 from geometry_msgs.msg import PoseStamped
 from styx_msgs.msg import Lane, Waypoint
 from scipy.spatial import KDTree
@@ -32,18 +33,20 @@ class WaypointUpdater(object):
     def __init__(self):
         rospy.init_node('waypoint_updater')
 
+        # Subscribers
         rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
         rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
 
-        # Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
+        # Publishers
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
-        # Add other member variables you need below
+        # Other member variables
         self.pose = None
         self.base_waypoints = None
         self.waypoints_2d = None
         self.waypoints_tree = None
+        self.stopline_wp_idx = -1
 
         self.loop()
 
@@ -102,11 +105,12 @@ class WaypointUpdater(object):
             stop_idx = max(self.stopline_wp_idx - closest_idx - 2 , 0)
             dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2 * MAX_DECEL * dist)
-            if vel < 1:
+            if vel < 1.:
                 vel = 0.
 
             p.twist.twitst.linear.x = min(vel, wp.twist.twist.linear.x)
             temp.append(p)
+        return temp
 
     def pose_cb(self, msg):
         self.pose = msg
