@@ -23,4 +23,7 @@
 
     <!--Camera Info Publisher -->
     <include file="$(find camera_info_publisher)/launch/camera_info_publisher.launch"/>
+    
+    <!--Traffic Light Detector Protobuf File location -->
+    <param name="tl_classifier_pb_file" value="$(find tl_detector)/light_classification/ssd_classifier.pb" />
 </launch>
