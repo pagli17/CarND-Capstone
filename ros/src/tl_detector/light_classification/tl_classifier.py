@@ -69,7 +69,7 @@ class TLClassifier(object):
             scores = np.squeeze(scores)
             classes = np.squeeze(classes)
 
-            confidence_threshold = 0.5
+            confidence_threshold = 0.65
             # Filter boxes with a confidence score less than `confidence_cutoff`
             boxes, scores, classes = filter_boxes(confidence_threshold, boxes, scores, classes)
             if classes.size != 0:
