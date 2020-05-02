@@ -22,5 +22,5 @@
     <param name="traffic_light_config" textfile="$(find tl_detector)/sim_traffic_light_config.yaml" />
     
     <!--Traffic Light Detector Protobuf File location -->
-    <param name="tl_classifier_pb_file" value="$(find tl_detector)/light_classification/frozen_inference_graph.pb" />
+    <param name="tl_classifier_pb_file" value="$(find tl_detector)/light_classification/ssd_classifier.pb" />
 </launch>
