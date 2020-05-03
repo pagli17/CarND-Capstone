@@ -1,4 +1,4 @@
--build
--devel
--
--profile.tmp
+build/
+devel/
+*.pyc
+*.tmp
